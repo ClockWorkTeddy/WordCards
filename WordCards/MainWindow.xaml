@@ -1,0 +1,66 @@
+﻿<Window x:Class="WordCards.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WordCards"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="300" Width="500">
+    <Window.Resources>
+        <local:ConverterBoolToVisibleNext x:Key="boolToVisNext"/>
+        <local:ConverterBoolToVisibleShow x:Key="boolToVisShow"/>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Modifiers="" Key="Right" Command="{Binding NextCommand}"/>
+        <KeyBinding Modifiers="" Key="Space" Command="{Binding ShowCommand}"/>
+        <KeyBinding Modifiers="" Key="Left" Command="{Binding SkipCommand}"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="0">
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="24"
+                           Text="{Binding Word, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center"/>
+            </Border>
+            <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="1">
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="24" 
+                           Text="{Binding Translate, UpdateSourceTrigger=PropertyChanged}" 
+                           Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"
+                           TextAlignment="Center"/>
+            </Border>
+            <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="2">
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="24"
+                           Text="{Binding Transcription, UpdateSourceTrigger=PropertyChanged}"
+                           Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"
+                           TextAlignment="Center"/>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Content="In Pool" HorizontalAlignment="Stretch" Margin="10,10,10,10" 
+                    VerticalAlignment="Stretch" FontSize="24" Command="{Binding SkipCommand}" Grid.Column="0"
+                    IsEnabled="{Binding State, Converter={StaticResource boolToVisNext}}"/>
+            <Button Content="Next" HorizontalAlignment="Stretch" Margin="10,10,10,10" 
+                    VerticalAlignment="Stretch" FontSize="24" Grid.Column="2"
+                    Visibility="{Binding State, Converter={StaticResource boolToVisNext}}" Command="{Binding NextCommand}"/>
+            <Button Content="Show" HorizontalAlignment="Stretch" Margin="10,10,10,10" 
+                    VerticalAlignment="Stretch" FontSize="24" Grid.Column="2"
+                    Visibility="{Binding State, Converter={StaticResource boolToVisShow}}" Command="{Binding ShowCommand}"/>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Grid.Column="1"
+                       Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}"/>
+
+        </Grid>
+    </Grid>
+</Window>
