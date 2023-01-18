@@ -5,10 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WordCards"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="500">
+        Title="MainWindow" Height="300" Width="500"
+        Background="#8ee4af">
     <Window.Resources>
         <local:ConverterBoolToVisibleNext x:Key="boolToVisNext"/>
         <local:ConverterBoolToVisibleShow x:Key="boolToVisShow"/>
+        <ControlTemplate TargetType="Button" x:Key="btnTemplate">
+            <Border x:Name="buttonBorder" CornerRadius="5"
+                    BorderThickness="0"
+                    Background="#5cdb95"
+                    Margin="10,10,10,10">
+                <ContentControl x:Name="buttonInside" FontWeight="Bold"
+                                FontSize="24"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{TemplateBinding Content}"
+                                Foreground="#2a7062"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="true">
+                    <Setter TargetName="buttonInside" Property="Foreground" Value="#5cdb95"/>
+                    <Setter TargetName="buttonBorder" Property="Background" Value="#82E2A9"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Modifiers="" Key="Right" Command="{Binding NextCommand}"/>
@@ -20,47 +40,42 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="0">
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="24"
-                           Text="{Binding Word, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center"/>
-            </Border>
-            <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="1">
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="24" 
-                           Text="{Binding Translate, UpdateSourceTrigger=PropertyChanged}" 
-                           Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"
-                           TextAlignment="Center"/>
-            </Border>
-            <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="2">
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="24"
-                           Text="{Binding Transcription, UpdateSourceTrigger=PropertyChanged}"
-                           Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"
-                           TextAlignment="Center"/>
-            </Border>
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button Content="In Pool" HorizontalAlignment="Stretch" Margin="10,10,10,10" 
-                    VerticalAlignment="Stretch" FontSize="24" Command="{Binding SkipCommand}" Grid.Column="0"
-                    IsEnabled="{Binding State, Converter={StaticResource boolToVisNext}}"/>
-            <Button Content="Next" HorizontalAlignment="Stretch" Margin="10,10,10,10" 
-                    VerticalAlignment="Stretch" FontSize="24" Grid.Column="2"
-                    Visibility="{Binding State, Converter={StaticResource boolToVisNext}}" Command="{Binding NextCommand}"/>
-            <Button Content="Show" HorizontalAlignment="Stretch" Margin="10,10,10,10" 
-                    VerticalAlignment="Stretch" FontSize="24" Grid.Column="2"
-                    Visibility="{Binding State, Converter={StaticResource boolToVisShow}}" Command="{Binding ShowCommand}"/>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Grid.Column="1"
-                       Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="10,10,10,10" Grid.Row="0" Grid.Column="0" Background="#75e1a5">
+            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" 
+                        FontSize="24" Text="{Binding Word, UpdateSourceTrigger=PropertyChanged}" 
+                        TextAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Margin="10,10,10,10" Grid.Row="0" Grid.Column="1" Background="#75e1a5">
+            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" 
+                    FontSize="24" Text="{Binding Translate, UpdateSourceTrigger=PropertyChanged}" 
+                    Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"
+                    TextAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+        </StackPanel>
+        <StackPanel Margin="10,10,10,10" Grid.Row="0" Grid.Column="2" Background="#75e1a5">
+            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" 
+                    FontSize="24" Text="{Binding Transcription, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"
+                    TextAlignment="Center" Grid.Row="0" Grid.Column="2"/>
+        </StackPanel>
 
-        </Grid>
+        <Button Content="In Pool" Command="{Binding SkipCommand}" Grid.Row="1" Grid.Column="0"
+                Template="{StaticResource btnTemplate}" 
+                IsEnabled="{Binding State, Converter={StaticResource boolToVisNext}}"/>
+        <Button Content="Next" Command="{Binding NextCommand}" Grid.Row="1" Grid.Column="2"
+                Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"
+                Template="{StaticResource btnTemplate}"/>
+        <Button Content="Show" Command="{Binding ShowCommand}" Grid.Row="1" Grid.Column="2"
+                Visibility="{Binding State, Converter={StaticResource boolToVisShow}}"
+                Template="{StaticResource btnTemplate}"/>
+        <StackPanel Margin="10,10,10,10" Grid.Row="1" Grid.Column="1" Background="#75e1a5">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" 
+                    Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" 
+                    Grid.Column="1"/>
+        </StackPanel>
     </Grid>
 </Window>
