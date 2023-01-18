@@ -23,7 +23,7 @@
                                 Foreground="#2a7062"/>
             </Border>
             <ControlTemplate.Triggers>
-                <Trigger Property="IsEnabled" Value="true">
+                <Trigger Property="IsEnabled" Value="false">
                     <Setter TargetName="buttonInside" Property="Foreground" Value="#5cdb95"/>
                     <Setter TargetName="buttonBorder" Property="Background" Value="#82E2A9"/>
                 </Trigger>
