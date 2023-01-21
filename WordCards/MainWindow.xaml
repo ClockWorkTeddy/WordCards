@@ -24,11 +24,20 @@
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsEnabled" Value="false">
-                    <Setter TargetName="buttonInside" Property="Foreground" Value="#5cdb95"/>
-                    <Setter TargetName="buttonBorder" Property="Background" Value="#82E2A9"/>
+                    <Setter TargetName="buttonInside" Property="Foreground" Value="#2a7062"/>
+                    <Setter TargetName="buttonBorder" Property="Background" Value="#5cdb95"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#2a7062"/>
+        </Style>
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Modifiers="" Key="Right" Command="{Binding NextCommand}"/>
@@ -45,23 +54,17 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Margin="10,10,10,10" Grid.Row="0" Grid.Column="0" Background="#75e1a5">
-            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" 
-                        FontSize="24" Text="{Binding Word, UpdateSourceTrigger=PropertyChanged}" 
-                        TextAlignment="Center"/>
-        </StackPanel>
-        <StackPanel Margin="10,10,10,10" Grid.Row="0" Grid.Column="1" Background="#75e1a5">
-            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" 
-                    FontSize="24" Text="{Binding Translate, UpdateSourceTrigger=PropertyChanged}" 
-                    Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"
-                    TextAlignment="Center" Grid.Row="0" Grid.Column="1"/>
-        </StackPanel>
-        <StackPanel Margin="10,10,10,10" Grid.Row="0" Grid.Column="2" Background="#75e1a5">
-            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" 
-                    FontSize="24" Text="{Binding Transcription, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"
-                    TextAlignment="Center" Grid.Row="0" Grid.Column="2"/>
-        </StackPanel>
+        <Grid Grid.Row="0" Grid.Column="0" Background="#75e1a5" Margin="10,10,10,10">
+            <TextBlock Text="{Binding Word, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1" Background="#75e1a5" Margin="10,10,10,10">
+            <TextBlock Text="{Binding Translate, UpdateSourceTrigger=PropertyChanged}" 
+                    Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="2" Background="#75e1a5" Margin="10,10,10,10">
+            <TextBlock Text="{Binding Transcription, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding State, Converter={StaticResource boolToVisNext}}"/>
+        </Grid>
 
         <Button Content="In Pool" Command="{Binding SkipCommand}" Grid.Row="1" Grid.Column="0"
                 Template="{StaticResource btnTemplate}" 
@@ -72,10 +75,8 @@
         <Button Content="Show" Command="{Binding ShowCommand}" Grid.Row="1" Grid.Column="2"
                 Visibility="{Binding State, Converter={StaticResource boolToVisShow}}"
                 Template="{StaticResource btnTemplate}"/>
-        <StackPanel Margin="10,10,10,10" Grid.Row="1" Grid.Column="1" Background="#75e1a5">
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" 
-                    Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" 
-                    Grid.Column="1"/>
-        </StackPanel>
+        <Grid Margin="10,10,10,10" Grid.Row="1" Grid.Column="1" Background="#75e1a5">
+            <TextBlock FontSize="48" Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
     </Grid>
 </Window>
